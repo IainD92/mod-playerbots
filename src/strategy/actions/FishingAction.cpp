@@ -161,7 +161,6 @@ WorldPosition findLandRadialFromPosition (PlayerbotAI* botAI, WorldPosition targ
                 continue;
 
                 boundaryPoints.emplace_back(WorldPosition(bot->GetMapId(), checkX, checkY, groundZ));
-            }
         }
 
         if (!boundaryPoints.empty())
