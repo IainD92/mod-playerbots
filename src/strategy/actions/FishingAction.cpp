@@ -52,7 +52,7 @@ float hasFishableWaterOrLand(float x, float y, float z,  Map* map, uint32 phaseM
 
     LiquidData const& liq = map->GetLiquidData(phaseMask, x, y, z+HEIGHT_ABOVE_WATER_TOLERANCE, DEFAULT_COLLISION_HEIGHT, MAP_ALL_LIQUIDS);
     float ground = map->GetHeight(phaseMask, x, y, z + HEIGHT_SEARCH_BUFFER, true);
-;
+
     if (liq.Entry == 0)
     {
         if (checkForLand)
@@ -120,11 +120,9 @@ WorldPosition findLandFromPosition(PlayerbotAI* botAI, float startDistance, floa
                 if (!hasLOS)
                     continue;
             }
-            if (master && botAI->HasStrategy("follow", BOT_STATE_NON_COMBAT))
-            {
-                if (master->GetDistance(checkX, checkY, groundZ) > fishingSearchWindow - 0.5)
-                    continue;
-            }
+            if (master && botAI->HasStrategy("follow", BOT_STATE_NON_COMBAT) && master->GetDistance(checkX, checkY, groundZ) > fishingSearchWindow - 0.5)
+                continue;
+
             return WorldPosition(bot->GetMapId(), checkX, checkY, groundZ);
         }
     }
@@ -159,13 +157,9 @@ WorldPosition findLandRadialFromPosition (PlayerbotAI* botAI, WorldPosition targ
             if (groundZ == INVALID_HEIGHT)
                 continue;
 
-            if (map->isInLineOfSight(checkX, checkY, groundZ, targetX, targetY, targetZ, phaseMask, LINEOFSIGHT_ALL_CHECKS, VMAP::ModelIgnoreFlags::Nothing))
-            {
-                if (master && botAI->HasStrategy("follow", BOT_STATE_NON_COMBAT))
-                {
-                    if (master->GetDistance(checkX, checkY, groundZ) > fishingSearchWindow - 0.5)
-                        continue;
-                }
+            if (map->isInLineOfSight(checkX, checkY, groundZ, targetX, targetY, targetZ, phaseMask, LINEOFSIGHT_ALL_CHECKS, VMAP::ModelIgnoreFlags::Nothing) && master->GetDistance(checkX, checkY, groundZ) > fishingSearchWindow - 0.5)
+                continue;
+
                 boundaryPoints.emplace_back(WorldPosition(bot->GetMapId(), checkX, checkY, groundZ));
             }
         }
