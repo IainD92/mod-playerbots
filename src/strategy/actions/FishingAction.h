@@ -15,12 +15,12 @@ extern const uint32 FISHING_SPELL;
 extern const uint32 FISHING_POLE;
 extern const uint32 FISHING_BOBBER;
 
-WorldPosition findWaterRadial(Player* bot, float x, float y, float z, Map* map, uint32 phaseMask, float minDistance, float maxDistance, float increment, bool checkLOS=false);
-WorldPosition findFishingNode(PlayerbotAI* botAI);
+WorldPosition FindWaterRadial(Player* bot, float x, float y, float z, Map* map, uint32 phaseMask, float minDistance, float maxDistance, float increment, bool checkLOS=false);
+WorldPosition FindFishingNode(PlayerbotAI* botAI);
 
 class PlayerbotAI;
 
-class FishingAction : public Action, public Qualified
+class FishingAction : public Action
 {
 public:
     FishingAction(PlayerbotAI* botAI) : Action(botAI, "go fishing"){}
@@ -28,17 +28,17 @@ public:
     bool isUseful() override;
 };
 
-class EquipFishingPoleAction : public Action, public Qualified
+class EquipFishingPoleAction : public Action
 {
 public:
     EquipFishingPoleAction(PlayerbotAI* botAI) : Action(botAI, "equip fishing pole") {}
     bool Execute(Event event) override;
     bool isUseful() override;
 private:
-    Item* pole = nullptr;
+    Item* _pole = nullptr;
 };
 
-class MoveNearWaterAction : public MovementAction, public Qualified
+class MoveNearWaterAction : public MovementAction
 {
 public:
     MoveNearWaterAction(PlayerbotAI* botAI): MovementAction(botAI, "move near water") {}

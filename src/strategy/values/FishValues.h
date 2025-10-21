@@ -35,13 +35,13 @@ public:
     void Set(WorldPosition val) override
     {
         value = val;
-        SetTime = getMSTime();
+        _setTime = getMSTime();
     }
-    uint32 lastUpdated() const {return SetTime;}
-    bool isStale(uint32 maxDuration) const { return getMSTime() - SetTime > maxDuration; }
+    uint32 lastUpdated() const {return - _setTime;}
+    bool IsStale(uint32 maxDuration) const { return getMSTime() - _setTime > maxDuration; }
 
 private:
-    uint32 SetTime = 0;
+    uint32 _setTime = 0;
 };
 
 
