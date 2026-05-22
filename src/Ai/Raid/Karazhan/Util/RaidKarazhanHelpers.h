@@ -62,7 +62,6 @@ namespace KarazhanHelpers
         NPC_ATTUMEN_THE_HUNTSMAN_MOUNTED = 16152,
 
         // Terestian Illhoof
-        NPC_TERESTIAN_ILLHOOF            = 15688,
         NPC_DEMON_CHAINS                 = 17248,
         NPC_KILREK                       = 17229,
 
@@ -117,7 +116,7 @@ namespace KarazhanHelpers
     std::vector<Player*> GetGreenBlockers(PlayerbotAI* botAI, Player* bot);
     std::tuple<Player*, Player*, Player*> GetCurrentBeamBlockers(PlayerbotAI* botAI, Player* bot);
     std::vector<Unit*> GetAllVoidZones(PlayerbotAI *botAI, Player* bot);
-    bool IsSafePosition (float x, float y, float z, const std::vector<Unit*>& hazards, float hazardRadius);
+    bool IsSafePosition (float x, float y, const std::vector<Unit*>& hazards, float hazardRadius);
     std::vector<Unit*> GetSpawnedInfernals(PlayerbotAI* botAI);
     bool IsStraightPathSafe(
         const Position& start, const Position& target,

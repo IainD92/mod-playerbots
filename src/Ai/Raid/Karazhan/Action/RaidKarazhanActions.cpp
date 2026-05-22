@@ -116,9 +116,9 @@ bool AttumenTheHuntsmanStackBehindAction::Execute(Event /*event*/)
     float rearX = attumenMounted->GetPositionX() + std::cos(orientation) * distanceBehind;
     float rearY = attumenMounted->GetPositionY() + std::sin(orientation) * distanceBehind;
 
-    if (bot->GetExactDist2d(rearX, rearY) > 1.0f)
+    if (bot->GetDistance2d(rearX, rearY) > 1.0f)
     {
-        return MoveTo(KARAZHAN_MAP_ID, rearX, rearY, attumenMounted->GetPositionZ(), false, false, false, false,
+        return MoveTo(KARAZHAN_MAP_ID, rearX, rearY, bot->GetPositionZ(), false, false, false, false,
                       MovementPriority::MOVEMENT_FORCED, true, false);
     }
 
@@ -744,7 +744,7 @@ bool NetherspiteBlockBlueBeamAction::Execute(Event /*event*/)
             float candidateX = bx + dx * dist;
             float candidateY = by + dy * dist;
             float candidateZ = bz;
-            if (!IsSafePosition(candidateX, candidateY, candidateZ, voidZones, 4.0f))
+            if (!IsSafePosition(candidateX, candidateY, voidZones, 4.0f))
                 continue;
 
             float distToIdeal = fabs(dist - idealDistance);
@@ -836,7 +836,7 @@ bool NetherspiteBlockGreenBeamAction::Execute(Event /*event*/)
             float candidateX = bx + dx * dist;
             float candidateY = by + dy * dist;
             float candidateZ = bz;
-            if (!IsSafePosition(candidateX, candidateY, candidateZ, voidZones, 4.0f))
+            if (!IsSafePosition(candidateX, candidateY, voidZones, 4.0f))
                 continue;
 
             float distToIdeal = fabs(dist - 18.0f);
@@ -870,11 +870,10 @@ bool NetherspiteAvoidBeamAndVoidZoneAction::Execute(Event /*event*/)
     if (!netherspite)
         return false;
 
-    auto [redBlocker, greenBlocker, blueBlocker] = GetCurrentBeamBlockers(botAI, bot);
     std::vector<Unit*> voidZones = GetAllVoidZones(botAI, bot);
 
     bool nearVoidZone = !IsSafePosition(bot->GetPositionX(), bot->GetPositionY(),
-                                        bot->GetPositionZ(), voidZones, 4.0f);
+                                        voidZones, 4.0f);
 
     std::vector<BeamAvoid> beams;
     Unit* redPortal = bot->FindNearestCreature(NPC_RED_PORTAL, 150.0f);
@@ -923,7 +922,7 @@ bool NetherspiteAvoidBeamAndVoidZoneAction::Execute(Event /*event*/)
             float cy = botY + std::sin(angle) * dist;
             float cz = netherspiteZ;
 
-            if (!IsSafePosition(cx, cy, cz, voidZones, 4.0f) ||
+            if (!IsSafePosition(cx, cy, voidZones, 4.0f) ||
                 !IsAwayFromBeams(cx, cy, beams, netherspite))
                 continue;
 
@@ -1179,7 +1178,7 @@ bool PrinceMalchezaarNonTankAvoidInfernalAction::Execute(Event /*event*/)
             bot->AttackStop();
             bot->InterruptNonMeleeSpells(true);
             return MoveTo(KARAZHAN_MAP_ID, bestDestX, bestDestY, bestDestZ, false, false, false, false,
-                          MovementPriority::MOVEMENT_FORCED, true, false);
+                          MovementPriority::MOVEMENT_COMBAT, true, false);
         }
     }
 
@@ -1245,7 +1244,7 @@ bool PrinceMalchezaarMainTankMovementAction::Execute(Event /*event*/)
         {
             bot->AttackStop();
             return MoveTo(KARAZHAN_MAP_ID, bestDestX, bestDestY, bestDestZ, false, false, false, false,
-                          MovementPriority::MOVEMENT_FORCED, true, false);
+                          MovementPriority::MOVEMENT_COMBAT, true, true);
         }
     }
 

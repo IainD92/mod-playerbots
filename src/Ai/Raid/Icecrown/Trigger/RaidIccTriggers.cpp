@@ -559,7 +559,7 @@ bool IccBqlVampiricBiteTrigger::IsActive()
 bool IccValkyreSpearTrigger::IsActive()
 {
     // Check if there's a spear nearby
-    if (Creature* spear = bot->FindNearestCreature(NPC_SPEAR, 100.0f))
+    if (bot->FindNearestCreature(NPC_SPEAR, 100.0f))
         return true;
 
     return false;
@@ -1102,7 +1102,6 @@ bool IccLichKingShadowTrapTrigger::IsActive()
     // search for all nearby traps
     GuidVector npcs = AI_VALUE(GuidVector, "nearest hostile npcs");
     std::vector<Unit*> nearbyTraps;
-    bool needToMove = false;
 
     for (auto& npc : npcs)
     {

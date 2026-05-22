@@ -11,7 +11,7 @@ public:
     ChatCommandActionNodeFactoryInternal() { creators["tank attack chat shortcut"] = &tank_attack_chat_shortcut; }
 
 private:
-    static ActionNode* tank_attack_chat_shortcut(PlayerbotAI* botAI)
+    static ActionNode* tank_attack_chat_shortcut(PlayerbotAI* /*botAI*/)
     {
         return new ActionNode("tank attack chat shortcut",
                               /*P*/ {},
@@ -82,7 +82,15 @@ void ChatCommandHandlerStrategy::InitTriggers(std::vector<TriggerNode*>& trigger
     triggers.push_back(
         new TriggerNode("target", { NextAction("tell target", relevance) }));
     triggers.push_back(
+        new TriggerNode("pull", { NextAction("pull my target", relevance) }));
+    triggers.push_back(
+        new TriggerNode("pull back", { NextAction("pull my target", relevance) }));
+    triggers.push_back(
+        new TriggerNode("pull rti", { NextAction("pull rti target", relevance) }));
+    triggers.push_back(
         new TriggerNode("ready", { NextAction("ready check", relevance) }));
+    triggers.push_back(
+        new TriggerNode("naxx", {NextAction("naxx chat shortcut", relevance)}));
     triggers.push_back(
         new TriggerNode("bwl", { NextAction("bwl chat shortcut", relevance) }));
     triggers.push_back(
@@ -105,6 +113,8 @@ void ChatCommandHandlerStrategy::InitTriggers(std::vector<TriggerNode*>& trigger
     triggers.push_back(new TriggerNode("pet", { NextAction("pet", relevance) }));
     triggers.push_back(new TriggerNode("pet attack", { NextAction("pet attack", relevance) }));
     triggers.push_back(new TriggerNode("roll", { NextAction("roll", relevance) }));
+    triggers.push_back(new TriggerNode("focus heal", { NextAction("focus heal targets", relevance) }));
+    triggers.push_back(new TriggerNode("emblems", { NextAction("emblems", relevance) }));
 }
 
 ChatCommandHandlerStrategy::ChatCommandHandlerStrategy(PlayerbotAI* botAI) : PassTroughStrategy(botAI)
@@ -129,6 +139,7 @@ ChatCommandHandlerStrategy::ChatCommandHandlerStrategy(PlayerbotAI* botAI) : Pas
     supported.push_back("teleport");
     supported.push_back("taxi");
     supported.push_back("repair");
+    supported.push_back("emblems");
     supported.push_back("talents");
     supported.push_back("spells");
     supported.push_back("co");
@@ -158,6 +169,13 @@ ChatCommandHandlerStrategy::ChatCommandHandlerStrategy(PlayerbotAI* botAI) : Pas
     supported.push_back("save mana");
     supported.push_back("formation");
     supported.push_back("stance");
+    supported.push_back("cancel tree form");
+    supported.push_back("cancel travel form");
+    supported.push_back("cancel bear form");
+    supported.push_back("cancel dire bear form");
+    supported.push_back("cancel cat form");
+    supported.push_back("cancel moonkin form");
+    supported.push_back("cancel aquatic form");
     supported.push_back("sendmail");
     supported.push_back("mail");
     supported.push_back("outfit");
@@ -186,8 +204,10 @@ ChatCommandHandlerStrategy::ChatCommandHandlerStrategy(PlayerbotAI* botAI) : Pas
     supported.push_back("unlock items");
     supported.push_back("unlock traded item");
     supported.push_back("tame");
-    supported.push_back("glyphs"); // Added for custom Glyphs
-    supported.push_back("glyph equip"); // Added for custom Glyphs
+    supported.push_back("glyphs");
+    supported.push_back("glyph equip");
     supported.push_back("pet");
     supported.push_back("pet attack");
+    supported.push_back("wait for attack time");
+    supported.push_back("focus heal");
 }
